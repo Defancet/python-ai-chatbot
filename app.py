@@ -5,20 +5,17 @@ from chatbot import ChatBot
 
 def main():
     config = ConfigParser()
-    config.read('credintials.ini')
+    config.read('credentials.ini')
     api_key = config['gemini_ai']['API_KEY']
 
     chatbot = ChatBot(api_key=api_key)
-    chatbot.start_conservation()
-    # chatbot.clear_conservation()
+    chatbot.start_conversation()
 
     print("Welcome to the Gemini ChatBot CLI. Type 'quit' to exit.")
 
-    # print ('{0}: {1}'.format(chatbot.CHATBOT_NAME, chatbot.respondToUser()))
     while True:
         user_input = input("You: ")
         if user_input.lower() == 'quit':
-            # print("Exiting ChatBot CLI...")
             sys.exit("Exiting ChatBot CLI...")
 
         try:

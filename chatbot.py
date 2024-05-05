@@ -1,13 +1,12 @@
 import google.generativeai as genai
 
 
-class GeniAIException(Exception):
-    """GenAI Exception base class"""
+class GenAIException(Exception):
+    """GenAI Exceptions"""
 
 
 class ChatBot:
-    """Chat can only have one candidate count"""
-    CHATBOT_NAME = 'Gemini ChatBot'
+    CHATBOT_NAME = 'Rajat-AI'
 
     def __init__(self, api_key):
         self.genai = genai
@@ -20,11 +19,10 @@ class ChatBot:
 
     def send_prompt(self, prompt, temperature=0.1):
         if temperature < 0 or temperature > 1:
-            raise GeniAIException('Temperature must be between 0 and 1')
+            raise GenAIException('Temperature must be between 0 and 1')
 
         if not prompt:
-            raise GeniAIException('Prompt cannot be empty')
-
+            raise GenAIException('Prompt cannot be empty')
         try:
             response = self.conversation.send_message(
                 content=prompt,
@@ -33,7 +31,7 @@ class ChatBot:
             response.resolve()
             return f'{response.text}\n' + '---' * 20
         except Exception as e:
-            raise GeniAIException(e.message)
+            raise GenAIException(e.message)
 
     @property
     def history(self):
