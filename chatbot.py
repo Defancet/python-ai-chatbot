@@ -6,7 +6,7 @@ class GenAIException(Exception):
 
 
 class ChatBot:
-    CHATBOT_NAME = 'Rajat-AI'
+    CHATBOT_NAME = 'Gemini'
 
     def __init__(self, api_key):
         self.genai = genai
@@ -29,7 +29,7 @@ class ChatBot:
                 generation_config=self._generation_config(temperature),
             )
             response.resolve()
-            return f'{response.text}\n' + '---' * 20
+            return f'{response.text}\n'
         except Exception as e:
             raise GenAIException(e.message)
 
@@ -61,10 +61,8 @@ class ChatBot:
         if isinstance(conversation_history, list):
             self._conversation_history = conversation_history
         else:
-            self._conversation_history = [
-                self._construct_message(
-                    'From now on, return the output as a JSON object that can be loaded in Python with the key as \'text\'. For example, {"text": "<output goes here>"}'),
-                self._construct_message(
-                    '{"text": "Sure, I can return the output as a regular JSON object with the key as text. Here is an example: {"text": "Your Output"}."',
-                    'model')
-            ]
+            self._construct_message(
+                'From now on, return the output as a JSON object that can be loaded in Python with the key as \'text\'. For example, {"text": "<output goes here>"}'),
+            self._construct_message(
+                '{"text": "Sure, I can return the output as a regular JSON object with the key as text. Here is an example: {"text": "Your Output"}."',
+                'model')
