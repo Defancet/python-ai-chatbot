@@ -1,11 +1,11 @@
 # Gemini ChatBot
 
-The Gemini ChatBot is a conversational AI implemented in Python, leveraging a generative AI model for handling user
+Gemini ChatBot is a conversational AI implemented in Python and React that uses a generative AI model to handle user
 interactions.
 
 ## Configuration
 
-Ensure you have a valid API key for Gemini AI services. Place this key in a credentials.ini file under the root
+Ensure you have a valid API key for Gemini AI services. Place this key in a `credentials.ini` file under the root
 directory.
 
 Example structure of `credentials.ini`:
@@ -15,19 +15,36 @@ Example structure of `credentials.ini`:
 API_KEY = your_api_key_here
 ```
 
-You also need to install the `google-ai-generativelanguage` package to run the chatbot. You can do this by creating a virtual
-environment and installing the package as follows:
+## Setup
+
+1. Create and activate a Python virtual environment:
 
 ```bash
-py -m venv <your-env>
-.\<your-env>\Scripts\activate
-pip install google-ai-generativelanguage
+python3 -m venv venv
+source venv/bin/activate
+```
+
+2. Install the required Python packages:
+
+```bash
+pip install -r requirements.txt
 ```
 
 ## Usage
 
-Run the chatbot using the following command:
+### Start Backend Server
+
+Run the Python backend with the following command:
 
 ```bash
 python3 app.py
+```
+
+### Start Frontend Server
+
+In another terminal, navigate to the `gemini-chatbot-ui` directory and start the React application:
+
+```bash
+cd gemini-chatbot-ui
+npm start
 ```
