@@ -30,6 +30,15 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
+3. Install Node.js Dependencies:
+
+Navigate to the `gemini-chatbot-ui` directory and install all dependencies:
+
+```bash
+cd gemini-chatbot-ui
+npm install
+```
+
 ## Usage
 
 ### Start Backend Server
