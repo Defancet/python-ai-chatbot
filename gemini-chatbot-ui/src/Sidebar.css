@@ -1,0 +1,47 @@
+/* src/Sidebar.css */
+
+.sidebar {
+    width: 200px;
+    background-color: #f9f9f9;
+    padding: 10px;
+}
+
+.new-session {
+    font-size: 1rem;
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 10px;
+    border: 0;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+.new-session:hover {
+    background-color: #ececec;
+    border-radius: 50px;
+}
+
+.session-list {
+    list-style: none;
+    padding: 0;
+}
+
+.session-list li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.session-list li:hover {
+    background-color: #ececec;
+    border-radius: 50px;
+}
+
+.delete-session, .edit-session {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.delete-session:hover {
+    text-decoration: underline;
+}
