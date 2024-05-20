@@ -1,8 +1,9 @@
 // src/Sidebar.js
-import React, { useState } from "react";
+import React, {useState} from "react";
+import {FaPen, FaTrash} from "react-icons/fa";
 import "./Sidebar.css";
 
-function Sidebar({ sessions, onSelectSession, onNewSession, onDeleteSession, onUpdateSession }) {
+function Sidebar({sessions, onSelectSession, onNewSession, onDeleteSession, onUpdateSession}) {
     const [editingSessionId, setEditingSessionId] = useState(null);
     const [newName, setNewName] = useState("");
 
@@ -26,14 +27,22 @@ function Sidebar({ sessions, onSelectSession, onNewSession, onDeleteSession, onU
                     <li key={session.id}>
                         {editingSessionId === session.id ? (
                             <>
-                                <input type="text" value={newName} onChange={handleNameChange} />
+                                <input type="text" value={newName} onChange={handleNameChange}/>
                                 <button onClick={() => handleUpdate(session.id)}>Save</button>
                             </>
                         ) : (
                             <>
-                                <span onClick={() => onSelectSession(session.id)}>{session.name}</span>
-                                <button className="edit-session" onClick={() => handleEditClick(session.id, session.name)}>Edit</button>
-                                <button className="delete-session" onClick={() => onDeleteSession(session.id)}>Delete</button>
+                                <span onClick={() => onSelectSession(session.id)}
+                                      className="session-name">{session.name}</span>
+                                <div className="session-actions">
+                                    <button className="edit-session"
+                                            onClick={() => handleEditClick(session.id, session.name)}>
+                                        <FaPen/>
+                                    </button>
+                                    <button className="delete-session" onClick={() => onDeleteSession(session.id)}>
+                                        <FaTrash/>
+                                    </button>
+                                </div>
                             </>
                         )}
                     </li>

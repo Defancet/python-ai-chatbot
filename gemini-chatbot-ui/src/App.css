@@ -44,6 +44,7 @@
 
 .chat-input {
     display: flex;
+    width: 100%;
     max-width: 800px;
     margin: 20px auto;
     padding: 10px;
@@ -51,20 +52,24 @@
 
 .chat-input input {
     flex-grow: 1;
-    padding: 15px 20px 15px 20px;
+    padding: 15px 20px;
     border-radius: 50px 0 0 50px;
     border: 0;
     background-color: #f4f4f4;
 }
 
 .chat-input button {
-    padding: 15px 20px 15px 20px;
+    padding: 15px 20px;
     background-color: #f4f4f4;
     border: 0;
     border-radius: 0 50px 50px 0;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .chat-input button:hover {
     background-color: #494949;
+    color: white;
 }

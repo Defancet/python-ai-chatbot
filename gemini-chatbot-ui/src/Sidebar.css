@@ -1,5 +1,4 @@
 /* src/Sidebar.css */
-
 .sidebar {
     width: 200px;
     background-color: #f9f9f9;
@@ -27,6 +26,9 @@
 }
 
 .session-list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     padding: 10px;
     cursor: pointer;
 }
@@ -36,12 +38,27 @@
     border-radius: 50px;
 }
 
+.session-name {
+    flex-grow: 1;
+    text-align: left;
+    margin-right: 10px;
+}
+
+.session-actions {
+    display: flex;
+    align-items: center;
+}
+
 .delete-session, .edit-session {
     background: none;
     border: none;
     cursor: pointer;
 }
 
+.edit-session:hover {
+    color: gray;
+}
+
 .delete-session:hover {
-    text-decoration: underline;
+    color: #ff0000;
 }
