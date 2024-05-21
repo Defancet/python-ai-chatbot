@@ -3,7 +3,15 @@ import React, {useState} from "react";
 import {FaPen, FaTrash, FaPlus, FaBars} from "react-icons/fa";
 import "./Sidebar.css";
 
-function Sidebar({sessions, onSelectSession, onNewSession, onDeleteSession, onUpdateSession}) {
+function Sidebar({
+                     sessions,
+                     onSelectSession,
+                     onNewSession,
+                     onDeleteSession,
+                     onUpdateSession,
+                     onToggleSidebar,
+                     sidebarVisible
+                 }) {
     const [editingSessionId, setEditingSessionId] = useState(null);
     const [newName, setNewName] = useState("");
 
@@ -20,12 +28,13 @@ function Sidebar({sessions, onSelectSession, onNewSession, onDeleteSession, onUp
     };
 
     return (
-        <div className="sidebar">
+        <div className={`sidebar ${sidebarVisible ? "sidebar-visible" : "sidebar-hidden"}`}>
             <div className="sidebar-buttons">
                 <div className="button-wrapper">
-                    <button className="menu-button">
+                    <button className="menu-button" onClick={onToggleSidebar}>
                         <FaBars/>
                     </button>
+                    <span className="description">Close Menu</span>
                 </div>
                 <div className="button-wrapper">
                     <button className="new-session" onClick={onNewSession}>

@@ -1,7 +1,7 @@
 /* src/App.js */
 import React, {useState, useEffect} from "react";
 import axios from "axios";
-import {FaArrowRight} from "react-icons/fa";
+import {FaArrowRight, FaBars, FaPlus} from "react-icons/fa";
 import "./App.css";
 import Sidebar from "./Sidebar";
 
@@ -10,6 +10,23 @@ function App() {
     const [input, setInput] = useState("");
     const [sessions, setSessions] = useState([]);
     const [currentSessionId, setCurrentSessionId] = useState(null);
+    const [sidebarVisible, setSidebarVisible] = useState(window.innerWidth > 768);
+
+    const toggleSidebar = () => setSidebarVisible(!sidebarVisible);
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth <= 768) {
+                setSidebarVisible(false);
+            } else {
+                setSidebarVisible(true);
+            }
+        };
+
+        window.addEventListener("resize", handleResize);
+
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
 
     useEffect(() => {
         const fetchSessions = async () => {
@@ -50,13 +67,15 @@ function App() {
 
         try {
             const response = await axios.post("http://127.0.0.1:5000/api/chat", {
-                message: input.trim(), session_id: currentSessionId,
+                message: input.trim(),
+                session_id: currentSessionId,
             });
             const botMessage = {role: "bot", text: response.data.response};
             setMessages([...messages, userMessage, botMessage]);
         } catch (error) {
             const errorMessage = {
-                role: "bot", text: "Error communicating with the chatbot. Please try again.",
+                role: "bot",
+                text: "Error communicating with the chatbot. Please try again.",
             };
             setMessages([...messages, userMessage, errorMessage]);
         }
@@ -74,11 +93,15 @@ function App() {
         try {
             const response = await axios.post("http://127.0.0.1:5000/api/chat/new");
             const newSession = {
-                id: response.data.session_id, name: `Chat ${sessions.length + 1}`,
+                id: response.data.session_id,
+                name: `Chat ${sessions.length + 1}`,
             };
             setSessions([...sessions, newSession]);
             setCurrentSessionId(newSession.id);
             setMessages([]);
+            if (!sidebarVisible) {
+                toggleSidebar();
+            }
         } catch (error) {
             console.error("Error starting a new chat", error);
         }
@@ -91,7 +114,7 @@ function App() {
     const deleteSession = async (sessionId) => {
         try {
             await axios.post("http://127.0.0.1:5000/api/chat/delete", {session_id: sessionId});
-            setSessions(sessions.filter(session => session.id !== sessionId));
+            setSessions(sessions.filter((session) => session.id !== sessionId));
             if (currentSessionId === sessionId) {
                 setCurrentSessionId(sessions.length > 1 ? sessions[0].id : null);
                 setMessages([]);
@@ -104,45 +127,64 @@ function App() {
     const updateSession = async (sessionId, newName) => {
         try {
             await axios.post("http://127.0.0.1:5000/api/chat/update", {session_id: sessionId, name: newName});
-            setSessions(sessions.map(session => session.id === sessionId ? {...session, name: newName} : session));
+            setSessions(sessions.map((session) => (session.id === sessionId ? {...session, name: newName} : session)));
         } catch (error) {
             console.error("Error updating the chat session name", error);
         }
     };
 
-    return (<div className="App">
-        <div className="main-content">
-            <Sidebar
-                sessions={sessions}
-                onSelectSession={selectSession}
-                onNewSession={startNewChat}
-                onDeleteSession={deleteSession}
-                onUpdateSession={updateSession}
-            />
-            <main className="chat-section">
-                <div className="chat-window">
-                    {messages.map((msg, index) => (<div
-                        key={index}
-                        className={`message ${msg.role === "user" ? "user" : "bot"}`}
-                    >
-                        <span>{msg.text}</span>
-                    </div>))}
+    return (
+        <div className="App">
+            <div className="main-content">
+                <Sidebar
+                    sessions={sessions}
+                    onSelectSession={selectSession}
+                    onNewSession={startNewChat}
+                    onDeleteSession={deleteSession}
+                    onUpdateSession={updateSession}
+                    onToggleSidebar={toggleSidebar}
+                    sidebarVisible={sidebarVisible}
+                />
+                <main className={`chat-section ${sidebarVisible ? "" : "full-width"}`}>
+                    <div className="chat-window">
+                        {messages.map((msg, index) => (
+                            <div key={index} className={`message ${msg.role === "user" ? "user" : "bot"}`}>
+                                <span>{msg.text}</span>
+                            </div>
+                        ))}
+                    </div>
+                    <div className="chat-input">
+                        <input
+                            type="text"
+                            value={input}
+                            onChange={handleInputChange}
+                            onKeyDown={handleKeyDown}
+                            placeholder="Type a message..."
+                        />
+                        <button onClick={sendMessage} disabled={!input.trim()}>
+                            <FaArrowRight/>
+                        </button>
+                    </div>
+                </main>
+            </div>
+            {!sidebarVisible && (
+                <div className="sidebar-toggle">
+                    <div className="button-wrapper">
+                        <button className="menu-button" onClick={toggleSidebar}>
+                            <FaBars/>
+                        </button>
+                        <span className="description">Open Menu</span>
+                    </div>
+                    <div className="button-wrapper">
+                        <button className="new-session" onClick={startNewChat}>
+                            <FaPlus/>
+                        </button>
+                        <span className="description">New Chat</span>
+                    </div>
                 </div>
-                <div className="chat-input">
-                    <input
-                        type="text"
-                        value={input}
-                        onChange={handleInputChange}
-                        onKeyDown={handleKeyDown}
-                        placeholder="Type a message..."
-                    />
-                    <button onClick={sendMessage} disabled={!input.trim()}>
-                        <FaArrowRight/>
-                    </button>
-                </div>
-            </main>
+            )}
         </div>
-    </div>);
+    );
 }
 
 export default App;

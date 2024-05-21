@@ -3,6 +3,8 @@
     width: 200px;
     background-color: #f9f9f9;
     padding: 10px;
+    transition: transform 0.3s;
+    z-index: 999;
 }
 
 .sidebar-buttons {
@@ -19,6 +21,7 @@
 }
 
 .menu-button, .new-session {
+    color: #7d7d7d;
     padding: 15px;
     border: 0;
     cursor: pointer;
@@ -89,7 +92,9 @@
     position: relative;
 }
 
-.edit-session:hover {
+.edit-session:hover,
+.menu-button:hover,
+.new-session:hover {
     color: #000;
 }
 
