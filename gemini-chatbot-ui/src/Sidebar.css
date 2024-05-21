@@ -58,6 +58,7 @@
 .session-list {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
 .session-list li {
@@ -71,6 +72,15 @@
 .session-list li:hover {
     background-color: #ececec;
     border-radius: 50px;
+}
+
+.session-list li .session-actions {
+    display: none;
+    align-items: center;
+}
+
+.session-list li:hover .session-actions {
+    display: flex;
 }
 
 .session-name {
