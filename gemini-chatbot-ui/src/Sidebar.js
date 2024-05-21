@@ -14,17 +14,24 @@ function Sidebar({
                  }) {
     const [editingSessionId, setEditingSessionId] = useState(null);
     const [newName, setNewName] = useState("");
+    const [error, setError] = useState("");
 
     const handleEditClick = (sessionId, currentName) => {
         setEditingSessionId(sessionId);
         setNewName(currentName);
+        setError("");
     };
 
     const handleNameChange = (e) => setNewName(e.target.value);
 
     const handleUpdate = (sessionId) => {
+        if (newName.trim() === "") {
+            setError("Name cannot be empty");
+            return;
+        }
         onUpdateSession(sessionId, newName);
         setEditingSessionId(null);
+        setError("");
     };
 
     return (
@@ -43,6 +50,7 @@ function Sidebar({
                     <span className="description">New Chat</span>
                 </div>
             </div>
+            {error && <div className="error-message">{error}</div>}
             <ul className="session-list">
                 {sessions.map((session) => (
                     <li key={session.id}>

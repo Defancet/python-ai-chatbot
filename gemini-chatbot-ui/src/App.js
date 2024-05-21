@@ -1,9 +1,10 @@
 /* src/App.js */
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import axios from "axios";
 import {FaArrowRight, FaBars, FaPlus} from "react-icons/fa";
 import "./App.css";
 import Sidebar from "./Sidebar";
+import debounce from 'lodash.debounce';
 
 function App() {
     const [messages, setMessages] = useState([]);
@@ -11,6 +12,7 @@ function App() {
     const [sessions, setSessions] = useState([]);
     const [currentSessionId, setCurrentSessionId] = useState(null);
     const [sidebarVisible, setSidebarVisible] = useState(window.innerWidth > 768);
+    const textareaRef = useRef(null);
 
     const toggleSidebar = () => setSidebarVisible(!sidebarVisible);
 
@@ -81,20 +83,47 @@ function App() {
         }
 
         setInput("");
+        textareaRef.current.style.height = "auto";
     };
 
-    const handleInputChange = (e) => setInput(e.target.value);
+    const adjustTextareaHeight = debounce(() => {
+        const textarea = textareaRef.current;
+        textarea.style.height = "auto"; // Reset the height
+
+        const scrollHeight = textarea.scrollHeight;
+        const maxHeight = 200;
+
+        if (scrollHeight > maxHeight) {
+            textarea.style.height = `${maxHeight}px`;
+            textarea.style.overflowY = "auto";
+        } else if (textarea.clientHeight < scrollHeight) {
+            textarea.style.height = `${scrollHeight}px`;
+            textarea.style.overflowY = "hidden";
+        }
+    }, 100);
+
+    const handleInputChange = (e) => {
+        setInput(e.target.value);
+        adjustTextareaHeight();
+    };
 
     const handleKeyDown = (e) => {
-        if (e.key === "Enter") sendMessage();
+        if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage();
+        }
     };
 
     const startNewChat = async () => {
         try {
-            const response = await axios.post("http://127.0.0.1:5000/api/chat/new");
+            // Determine the next chat number
+            const nextChatNumber = sessions.length + 1;
+            const newChatName = `Chat ${nextChatNumber}`;
+
+            const response = await axios.post("http://127.0.0.1:5000/api/chat/new", {name: newChatName});
             const newSession = {
                 id: response.data.session_id,
-                name: `Chat ${sessions.length + 1}`,
+                name: newChatName,
             };
             setSessions([...sessions, newSession]);
             setCurrentSessionId(newSession.id);
@@ -154,12 +183,13 @@ function App() {
                         ))}
                     </div>
                     <div className="chat-input">
-                        <input
-                            type="text"
+                        <textarea
+                            ref={textareaRef}
                             value={input}
                             onChange={handleInputChange}
                             onKeyDown={handleKeyDown}
                             placeholder="Type a message..."
+                            rows={1}
                         />
                         <button onClick={sendMessage} disabled={!input.trim()}>
                             <FaArrowRight/>

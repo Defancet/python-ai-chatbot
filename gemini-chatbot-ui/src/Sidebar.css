@@ -1,6 +1,6 @@
 /* src/Sidebar.css */
 .sidebar {
-    width: 200px;
+    width: 250px;
     background-color: #f9f9f9;
     padding: 10px;
     transition: transform 0.3s;
@@ -55,10 +55,22 @@
     transition-delay: 0.2s;
 }
 
+.session-name {
+    flex-grow: 1;
+    text-align: left;
+    margin-right: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .session-list {
     list-style: none;
     padding: 0;
     margin: 0;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .session-list li {
@@ -83,18 +95,13 @@
     display: flex;
 }
 
-.session-name {
-    flex-grow: 1;
-    text-align: left;
-    margin-right: 10px;
-}
-
 .session-actions {
     display: flex;
     align-items: center;
 }
 
 .delete-session, .edit-session {
+    font-size: 0.9rem;
     color: #7d7d7d;
     background: none;
     border: none;
@@ -128,4 +135,9 @@ input:focus {
     border: 0;
     cursor: pointer;
     background-color: transparent;
+}
+
+.error-message {
+    color: #ff0000;
+    font-size: 0.9rem;
 }
