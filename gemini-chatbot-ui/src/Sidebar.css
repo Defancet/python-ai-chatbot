@@ -5,18 +5,51 @@
     padding: 10px;
 }
 
-.new-session {
-    width: 100%;
-    padding: 15px;
+.sidebar-buttons {
+    display: flex;
+    justify-content: space-between;
     margin-bottom: 10px;
+}
+
+.button-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.menu-button, .new-session {
+    padding: 15px;
     border: 0;
     cursor: pointer;
     background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
 }
 
-.new-session:hover {
+.menu-button:hover, .new-session:hover {
     background-color: #ececec;
     border-radius: 50px;
+}
+
+.description {
+    position: absolute;
+    bottom: -22px;
+    background-color: #fff;
+    padding: 3px 6px;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    font-size: 0.8rem;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.button-wrapper:hover .description {
+    opacity: 1;
+    transition-delay: 0.2s;
 }
 
 .session-list {
@@ -53,6 +86,7 @@
     background: none;
     border: none;
     cursor: pointer;
+    position: relative;
 }
 
 .edit-session:hover {
@@ -80,4 +114,3 @@ input:focus {
     cursor: pointer;
     background-color: transparent;
 }
-
