@@ -135,7 +135,7 @@ function App() {
                         onKeyDown={handleKeyDown}
                         placeholder="Type a message..."
                     />
-                    <button onClick={sendMessage}>
+                    <button onClick={sendMessage} disabled={!input.trim()}>
                         <FaArrowRight/>
                     </button>
                 </div>

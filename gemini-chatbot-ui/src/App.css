@@ -1,6 +1,7 @@
 /* src/App.css */
 .App {
     font-family: Roboto, sans-serif;
+    font-size: 1rem;
     text-align: center;
     height: 100vh;
     display: flex;
@@ -22,7 +23,7 @@
 .chat-window {
     flex-grow: 1;
     padding: 10px;
-    background-color: #ffff;
+    background-color: #fff;
 }
 
 .message {
@@ -69,7 +70,16 @@
     justify-content: center;
 }
 
-.chat-input button:hover {
+.chat-input button:enabled:hover {
     background-color: #494949;
     color: white;
+}
+
+.chat-input button:disabled {
+    color: #aaa;
+    cursor: default;
+}
+
+.chat-input button:disabled:hover {
+    background-color: #f4f4f4;
 }

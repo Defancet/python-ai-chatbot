@@ -1,4 +1,4 @@
-// src/Sidebar.js
+/* src/Sidebar.js */
 import React, {useState} from "react";
 import {FaPen, FaTrash} from "react-icons/fa";
 import "./Sidebar.css";
