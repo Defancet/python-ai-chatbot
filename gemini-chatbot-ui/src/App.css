@@ -72,7 +72,7 @@
     flex-grow: 1;
     padding: 10px;
     background-color: #fff;
-    overflow-y: auto; /* Add this line */
+    overflow-y: auto;
 }
 
 .message {

@@ -120,6 +120,7 @@
 }
 
 .sidebar input[type="text"] {
+    font-family: 'Google Sans', sans-serif;
     width: calc(100% - 20px);
     padding: 10px;
     border-radius: 50px;
@@ -132,6 +133,7 @@ input:focus {
 }
 
 .sidebar button {
+    font-family: 'Google Sans', sans-serif;
     border: 0;
     cursor: pointer;
     background-color: transparent;

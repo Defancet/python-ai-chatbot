@@ -15,7 +15,18 @@ api_key = config['gemini_ai']['API_KEY']
 
 chat_sessions = {}
 
+
+def load_sessions():
+    sessions = database.get_sessions()
+    for session_id, session_name in sessions:
+        chatbot = ChatBot(api_key=api_key)
+        messages = database.get_messages(session_id)
+        chatbot.preload_conversation(conversation_history=[{'role': role, 'text': text} for role, text in messages])
+        chat_sessions[session_id] = chatbot
+
+
 database.create_tables()
+load_sessions()
 
 
 @app.route('/api/chat', methods=['POST'])
