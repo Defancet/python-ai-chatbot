@@ -69,13 +69,11 @@ function Sidebar({
                                                 onClick={() => handleEditClick(session.id, session.name)}>
                                             <FaPen/>
                                         </button>
-                                        <span className="description">Edit</span>
                                     </div>
                                     <div className="button-wrapper">
                                         <button className="delete-session" onClick={() => onDeleteSession(session.id)}>
                                             <FaTrash/>
                                         </button>
-                                        <span className="description">Delete</span>
                                     </div>
                                 </div>
                             </>

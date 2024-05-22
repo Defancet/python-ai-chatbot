@@ -30,7 +30,11 @@ class ChatBot:
                 generation_config=self._generation_config(temperature),
             )
             response.resolve()
-            return f'{response.text}\n'
+
+            formatted_response = response.text.replace('\n', '<br>').replace('**', '<b>').replace('__', '</b>').replace(
+                '`', '<code>').replace('`', '</code>')
+
+            return formatted_response
         except Exception as e:
             raise GenAIException(e.message)
 

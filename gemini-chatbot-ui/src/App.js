@@ -178,7 +178,7 @@ function App() {
                     <div className="chat-window">
                         {messages.map((msg, index) => (
                             <div key={index} className={`message ${msg.role === "user" ? "user" : "bot"}`}>
-                                <span>{msg.text}</span>
+                                <span dangerouslySetInnerHTML={{__html: msg.text}}></span>
                             </div>
                         ))}
                     </div>
