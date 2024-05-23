@@ -1,4 +1,3 @@
-# app.py
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from configparser import ConfigParser
@@ -15,18 +14,17 @@ api_key = config['gemini_ai']['API_KEY']
 
 chat_sessions = {}
 
-
-def load_sessions():
-    sessions = database.get_sessions()
-    for session_id, session_name in sessions:
-        chatbot = ChatBot(api_key=api_key)
-        messages = database.get_messages(session_id)
-        chatbot.preload_conversation(conversation_history=[{'role': role, 'text': text} for role, text in messages])
-        chat_sessions[session_id] = chatbot
-
-
 database.create_tables()
-load_sessions()
+
+
+def create_new_chat_session():
+    session_id = str(uuid.uuid4())
+    session_name = f"Chat {len(database.get_sessions()) + 1}"
+    chatbot = ChatBot(api_key=api_key)
+    chatbot.start_conversation()
+    chat_sessions[session_id] = chatbot
+    database.add_session(session_id, session_name)
+    return session_id
 
 
 @app.route('/api/chat', methods=['POST'])
@@ -36,26 +34,21 @@ def chat():
     user_input = data.get('message', '')
 
     if session_id not in chat_sessions:
-        return jsonify({"error": "Session not found"}), 404
+        session_id = create_new_chat_session()
 
     chatbot = chat_sessions[session_id]
     try:
         response = chatbot.send_prompt(user_input)
         database.add_message(session_id, 'user', user_input)
         database.add_message(session_id, 'bot', response)
-        return jsonify({"response": response}), 200
+        return jsonify({"response": response, "session_id": session_id}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
 
 @app.route('/api/chat/new', methods=['POST'])
 def new_chat():
-    session_id = str(uuid.uuid4())
-    session_name = f"Chat {len(database.get_sessions()) + 1}"
-    chatbot = ChatBot(api_key=api_key)
-    chatbot.start_conversation()
-    chat_sessions[session_id] = chatbot
-    database.add_session(session_id, session_name)
+    session_id = create_new_chat_session()
     return jsonify({"session_id": session_id}), 200
 
 

@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "ChatBot",
+  "name": "AI ChatBot",
   "icons": [
     {
       "src": "favicon.ico",
