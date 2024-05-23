@@ -4,6 +4,7 @@
     background-color: #f9f9f9;
     padding: 10px;
     transition: transform 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     z-index: 999;
 }
 
@@ -35,6 +36,7 @@
 .menu-button:hover, .new-session:hover {
     background-color: #ececec;
     border-radius: 50px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .description {
@@ -77,6 +79,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin: 10px;
     padding: 10px;
     cursor: pointer;
 }
@@ -84,6 +87,7 @@
 .session-list li:hover {
     background-color: #ececec;
     border-radius: 50px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .session-list li .session-actions {

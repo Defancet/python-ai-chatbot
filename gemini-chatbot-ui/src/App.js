@@ -1,3 +1,4 @@
+/* src/App.js */
 import React, {useState, useEffect, useRef} from "react";
 import axios from "axios";
 import {FaArrowRight, FaBars, FaPlus} from "react-icons/fa";
@@ -87,6 +88,7 @@ function App() {
             const errorMessage = {
                 role: "bot",
                 text: "Error communicating with the chatbot. Please try again.",
+                isError: true
             };
             setMessages([...messages, userMessage, errorMessage]);
         }
@@ -185,7 +187,8 @@ function App() {
                 <main className={`chat-section ${sidebarVisible ? "" : "full-width"}`}>
                     <div className="chat-window">
                         {messages.map((msg, index) => (
-                            <div key={index} className={`message ${msg.role === "user" ? "user" : "bot"}`}>
+                            <div key={index}
+                                 className={`message ${msg.role === "user" ? "user" : "bot"} ${msg.isError ? "error" : ""}`}>
                                 <span dangerouslySetInnerHTML={{__html: msg.text}}></span>
                             </div>
                         ))}
