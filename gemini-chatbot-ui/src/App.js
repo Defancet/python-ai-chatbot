@@ -1,4 +1,3 @@
-/* src/App.js */
 import React, {useState, useEffect, useRef} from "react";
 import axios from "axios";
 import {FaArrowRight, FaBars, FaPlus} from "react-icons/fa";
@@ -72,6 +71,16 @@ function App() {
                 message: input.trim(),
                 session_id: currentSessionId,
             });
+
+            if (response.data.session_id && response.data.session_id !== currentSessionId) {
+                setCurrentSessionId(response.data.session_id);
+                const newSession = {
+                    id: response.data.session_id,
+                    name: `Chat ${sessions.length + 1}`
+                };
+                setSessions([...sessions, newSession]);
+            }
+
             const botMessage = {role: "bot", text: response.data.response};
             setMessages([...messages, userMessage, botMessage]);
         } catch (error) {
@@ -116,7 +125,6 @@ function App() {
 
     const startNewChat = async () => {
         try {
-            // Determine the next chat number
             const nextChatNumber = sessions.length + 1;
             const newChatName = `Chat ${nextChatNumber}`;
 
